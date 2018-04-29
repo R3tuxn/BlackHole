@@ -46,30 +46,30 @@ public class CMDSuggestions implements Command {
             event.getTextChannel().sendMessage(
                     builder.setColor(Color.red).setDescription(":x: **Error**\n\nUse *!suggestion >Text<*").build()
             ).queue();
-            return;
         } else {
 
         }
-        if (args.length > 1) {
+        if (args.length > 0) {
             List argsList = Arrays.asList(args);
             StringBuilder sb = new StringBuilder();
             argsList.forEach(s -> sb.append(s + " "));
-            gs.Vorschlag = sb;
+            gs.Suggestion = sb;
 
             event.getMessage().delete().complete();
             String ID = event.getAuthor().getDiscriminator();
 
             MessageChannel channel = event.getGuild().getTextChannelsByName("suggestions_reports", false).get(0);
 
-            RestAction<Message> action = channel.sendMessage(builder.setColor(Color.green).setTitle("Suggestion:").setDescription(gs.Vorschlag).addField("", text, false).addField("", Report, false).setFooter(Name, Avatar).build());
+            RestAction<Message> action = channel.sendMessage(builder.setColor(Color.green).setTitle("Suggestion:").setDescription(gs.Suggestion).addField("", text, false).addField("", Report, false).setFooter(Name, Avatar).build());
             Message message = action.complete();
             message.addReaction("\uD83D\uDC4D\uD83C\uDFFB").complete();
             message.addReaction("\uD83D\uDC4E\uD83C\uDFFB").complete();
             message.addReaction("❌").complete();
 
-            System.out.println("[COMMAND] -> !suggestion < " + gs.Vorschlag + " > By " + event.getAuthor().getName() + ID);
+            System.out.println("[COMMAND] -> !suggestion < " + gs.Suggestion + " > By " + event.getAuthor().getName() + ID);
 
         }
+
     }
 
 

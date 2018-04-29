@@ -24,6 +24,8 @@ public class commandHandler {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 commands.get(cmd.invoke).executed(safe, cmd.event);
             } else {

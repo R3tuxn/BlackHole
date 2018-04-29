@@ -77,7 +77,6 @@ public class MessageBuilder implements Command{
                 .addField("", "", false)
                 .setColor(Color.blue).build()).queue();
 
-
     }
 
     @Override

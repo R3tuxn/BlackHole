@@ -27,7 +27,7 @@ public class cmdhelp implements Command {
             String Stringtext = "Requested by " + Playername;
             String Avatar = event.getAuthor().getEffectiveAvatarUrl();
 
-            String Admin = "`!prefix <PREFIX>` **[Comming Soon!]** *Edit the bot prefix!*\n`!embedsay <Text>` *Send a message in a EmbedBuilder!*\n";
+            String Admin = "`!prefix help` **[BETA]** *Change the bot prefix!*\n`!embedsay <Text>` *Send a message in a EmbedBuilder!*\n";
             String Moderation = "";
             String Fun = "`!say <Text>` *Say something!*\n";
             String Informations = "`!help` *Open this message!*\n`!ping` *Shows the bot ping!*\n`!membercount` *Member and Bot counter!*\n`!userstats <Name>` *Shows stats of a user!*\n`!serverstats` *Shows stats of the server!*\n`!invite` *Get a invite of the server!*\n";

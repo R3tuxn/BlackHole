@@ -87,7 +87,6 @@ public class cmdUserStats implements Command {
             memb.getUser().getName();
 
             System.out.println("[COMMAND] -> !userstats <" + memb + ">");
-
     }
 
 

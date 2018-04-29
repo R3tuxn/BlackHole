@@ -27,7 +27,7 @@ public class cmdEmbedSay implements Command {
             return;
         } else if (args.length == 0) {
             event.getTextChannel().sendMessage(builder.setDescription(":x: Error\n\nUse !embedsay <Text>").build()).queue();
-           return;
+            return;
         }
         if (args.length > 0) {
 
@@ -58,6 +58,7 @@ public class cmdEmbedSay implements Command {
             event.getTextChannel().sendMessage(builder.setColor(Color.orange).setDescription(sb).setFooter(Text, Avatar).build()).queue();
         System.out.println("[COMMAND] -> !embedsay < "+ sb + ">");
 
+        return;
     }
 
 

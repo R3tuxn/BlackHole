@@ -22,7 +22,7 @@ public class cmdPing implements Command{
         if(args.length > 0) {
                     event.getTextChannel().sendMessage(
                             builder.setColor(Color.red).setDescription(":x: **Error**\n\nUse *!ping*").build()).queue();
-                    return;
+            return;
         } else {
             event.getTextChannel().sendMessage(
                     builder.setColor(Color.pink).setTitle("Pong :ping_pong: ").setDescription("**" + ping + " ms**").setTimestamp(Instant.now()).build()).queue();

@@ -35,6 +35,7 @@ public class CMDInvite implements Command {
         RestAction<Message> action =  channel.sendMessage(em.setColor(Color.green).addField("Discord Link: ", invite, false).build());
         Message message = action.complete();
         message.addReaction("✅").complete();
+
     }
 
     @Override

@@ -23,7 +23,7 @@ public class cmdsay implements Command{
                 event.getTextChannel().sendMessage(
                         builder.setColor(Color.red).setTitle(":x: **Error**\n\nUse *!say >Text<").build()
                 ).queue();
-                return;
+                    return;
 
             } else {
                 List argsList = Arrays.asList(args);

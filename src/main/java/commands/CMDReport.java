@@ -15,12 +15,12 @@ import java.util.List;
 public class CMDReport implements Command {
     public static class Grund {
 
-        public StringBuilder Grund, Vorschlag;
+        public StringBuilder Reason, Suggestion;
 
         public Grund(StringBuilder builder) {
 
-            this.Grund = builder.append("");
-            this.Vorschlag = builder.append("");
+            this.Reason = builder.append("");
+            this.Suggestion = builder.append("");
 
         }
     }
@@ -33,10 +33,10 @@ public class CMDReport implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
-        String Ersteller = event.getAuthor().getName();
+        String Reporter = event.getAuthor().getAsMention();
 
         if (permscore.check(event)) {
-           return;
+            return;
         }
 
         EmbedBuilder em = new EmbedBuilder();
@@ -50,16 +50,17 @@ public class CMDReport implements Command {
             return;
         }
         if (args.length == 1) {
-            member.getUser().getName();
+            member.getUser().getAsMention();
         }
+
         if (args.length > 1) {
             List argsList = Arrays.asList(args);
             StringBuilder sb = new StringBuilder();
             argsList.forEach(s -> sb.append(s + " "));
-            gs.Grund = sb;
+            gs.Reason = sb;
 
-            event.getGuild().getTextChannelsByName("blackholebot_log2", false).get(0).sendMessage("Your message has been sent succesfully!").queue();
-            event.getGuild().getTextChannelsByName("online", false).get(0).sendMessage(em.setDescription("**Report!**\n\nMelder: " + Ersteller + "\nVerbrecher: " + member + "\nGrund: " + gs.Grund).build()).queue();
+            event.getTextChannel().sendMessage("Your report has been sent succesfully!").queue();
+            event.getGuild().getTextChannelsByName("bot_reports", false).get(0).sendMessage(em.setDescription("**Report!**\n\nReporter: " + Reporter + "\nThief: " + member.getUser().getAsMention() + "\nReason: " + gs.Reason).build()).queue();
 
         } else {
             event.getTextChannel().sendMessage(em.setDescription(":x: **Error**\n\nUse !report <Name> <Reason>!").setColor(Color.red).build()).queue();
