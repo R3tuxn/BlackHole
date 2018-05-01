@@ -1,5 +1,6 @@
 package commands;
 
+import core.permscore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
@@ -18,6 +19,10 @@ public class CMDPrefix implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException, InterruptedException {
+
+        if (permscore.check(event)) {
+            return;
+        }
 
         EmbedBuilder builder = new EmbedBuilder();
 

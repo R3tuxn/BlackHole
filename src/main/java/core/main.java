@@ -1,6 +1,7 @@
 package core;
 
 import commands.*;
+import listeners.JoinListener;
 import listeners.ReactionClicked;
 import listeners.commandListener;
 import listeners.readyListener;
@@ -32,6 +33,7 @@ public class main {
         builder.addEventListener(new commandListener());
         builder.addEventListener(new readyListener());
         builder.addEventListener(new ReactionClicked());
+        builder.addEventListener(new JoinListener());
 
         try {
             JDA jda = builder.buildBlocking();

@@ -60,7 +60,7 @@ public class CMDReport implements Command {
             gs.Reason = sb;
 
             event.getTextChannel().sendMessage("Your report has been sent succesfully!").queue();
-            event.getGuild().getTextChannelsByName("bot_reports", false).get(0).sendMessage(em.setDescription("**Report!**\n\nReporter: " + Reporter + "\nThief: " + member.getUser().getAsMention() + "\nReason: " + gs.Reason).build()).queue();
+            event.getGuild().getTextChannelsByName("", false).get(0).sendMessage(em.setDescription("**Report!**\n\nReporter: " + Reporter + "\nThief: " + member.getUser().getAsMention() + "\nReason: " + gs.Reason).build()).queue();
 
         } else {
             event.getTextChannel().sendMessage(em.setDescription(":x: **Error**\n\nUse !report <Name> <Reason>!").setColor(Color.red).build()).queue();
