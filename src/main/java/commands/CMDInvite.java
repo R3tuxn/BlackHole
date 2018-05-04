@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.requests.RestAction;
+import util.STATIC;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,6 +19,13 @@ public class CMDInvite implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
+
+        EmbedBuilder em1 = new EmbedBuilder();
+
+        if (STATIC.Switch1.equals("off")) {
+            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            return;
+        }
 
         EmbedBuilder em = new EmbedBuilder();
 

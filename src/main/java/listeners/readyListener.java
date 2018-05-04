@@ -31,7 +31,7 @@ public class readyListener extends ListenerAdapter {
         System.out.println(out);
 
         for (Guild f : event.getJDA().getGuildsByName("Bot-Test-Server", true)) {
-            f.getTextChannelsByName("online", true).get(0).sendMessage(
+            f.getTextChannelsByName("welcome", true).get(0).sendMessage(
                     builder.setFooter("Black Hole Bot", Avatar).setTitle("Online :wave:").setDescription(out).setColor(Color.YELLOW).setTimestamp(Instant.now()).build()
             ).queue();
         }

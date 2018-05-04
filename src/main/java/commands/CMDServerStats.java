@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import util.STATIC;
 
 import java.awt.*;
 import java.text.ParseException;
@@ -70,6 +71,13 @@ public class CMDServerStats implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException {
+
+        EmbedBuilder em1 = new EmbedBuilder();
+
+        if (STATIC.Switch1.equals("off")) {
+            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            return;
+        }
 
         EmbedBuilder aw = new EmbedBuilder();
 

@@ -20,6 +20,13 @@ public class CMDPrefix implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException, InterruptedException {
 
+        EmbedBuilder em1 = new EmbedBuilder();
+
+        if (STATIC.Switch1.equals("off")) {
+            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            return;
+        }
+
         if (permscore.check(event)) {
             return;
         }
@@ -39,7 +46,7 @@ public class CMDPrefix implements Command {
                 event.getTextChannel().sendMessage(
                         builder.setColor(Color.orange)
                                 .setDescription(":clipboard: Prefix Help")
-                                .addField("", "`!prefix help` *Open this message!*\n`!prefix new <PREFIX>` *Change the bot Prefix!*", false)
+                                .addField("", "`" + STATIC.Prefix + "`" + "`prefix help` *Open this message!*\n" + "`" + STATIC.Prefix + "`" + "`prefix new <PREFIX>` *Change the bot Prefix!*", false)
                                 .addField("", "", false)
                                 .addField("", "The current prefix is " + "`" + STATIC.Prefix + "`", false)
                                 .addField("", "You can use `!  §  $  &  /  .  +  ?` !", false)

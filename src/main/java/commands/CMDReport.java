@@ -8,6 +8,8 @@ import core.permscore;
 import java.awt.*;
 import java.io.IOException;
 import net.dv8tion.jda.core.entities.Member;
+import util.STATIC;
+
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +34,13 @@ public class CMDReport implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
+
+        EmbedBuilder em1 = new EmbedBuilder();
+
+        if (STATIC.Switch1.equals("off")) {
+            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            return;
+        }
 
         String Reporter = event.getAuthor().getAsMention();
 

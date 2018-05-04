@@ -3,6 +3,7 @@ package commands;
 import net.dv8tion.jda.core.EmbedBuilder;
 import core.permscore;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import util.STATIC;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,6 +19,13 @@ public class cmdEmbedSay implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
+
+        EmbedBuilder em1 = new EmbedBuilder();
+
+        if (STATIC.Switch1.equals("off")) {
+            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            return;
+        }
 
         EmbedBuilder builder = new EmbedBuilder();
         String Text = "By " + event.getAuthor().getName();

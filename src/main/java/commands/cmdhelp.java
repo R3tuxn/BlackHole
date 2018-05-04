@@ -2,6 +2,7 @@ package commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import util.STATIC;
 
 import java.awt.*;
 
@@ -13,6 +14,13 @@ public class cmdhelp implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
+
+        EmbedBuilder em1 = new EmbedBuilder();
+
+        if (STATIC.Switch1.equals("off")) {
+            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            return;
+        }
 
         EmbedBuilder builder = new EmbedBuilder();
 
@@ -27,7 +35,7 @@ public class cmdhelp implements Command {
             String Stringtext = "Requested by " + Playername;
             String Avatar = event.getAuthor().getEffectiveAvatarUrl();
 
-            String Admin = "`!prefix help` **[BETA]** *Change the bot prefix!*\n`!embedsay <Text>` *Send a message in a EmbedBuilder!*\n";
+            String Admin = "`!prefix help` **[BETA]** *Change the bot prefix!*\n`!embedsay <Text>` *Send a message in a EmbedBuilder!*\n`!settings` *Edit the bot settings*\n";
             String Moderation = "";
             String Fun = "`!say <Text>` *Say something!*\n";
             String Informations = "`!help` *Open this message!*\n`!ping` *Shows the bot ping!*\n`!membercount` *Member and Bot counter!*\n`!userstats <Name>` *Shows stats of a user!*\n`!serverstats` *Shows stats of the server!*\n`!invite` *Get a invite of the server!*\n";
