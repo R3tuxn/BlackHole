@@ -57,7 +57,7 @@ public class ReactionClicked extends ListenerAdapter {
                         .build()).queue();
                 event.getReaction().removeReaction(event.getUser()).complete();
 
-                event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRolesByName("[MEMBER]", true).get(0)).queue();
+                event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRolesByName("[MEMBERS]", true).get(0)).queue();
 
                 event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(em2.setColor(Color.green).setDescription("Welcome " + event.getMember().getAsMention() + " at Black Hole! Have a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
 
