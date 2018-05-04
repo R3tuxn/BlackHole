@@ -1,10 +1,7 @@
 package core;
 
 import commands.*;
-import listeners.JoinListener;
-import listeners.ReactionClicked;
-import listeners.commandListener;
-import listeners.readyListener;
+import listeners.*;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -34,6 +31,7 @@ public class main {
         builder.addEventListener(new readyListener());
         builder.addEventListener(new ReactionClicked());
         builder.addEventListener(new JoinListener());
+        builder.addEventListener(new LeftListener());
 
         try {
             JDA jda = builder.buildBlocking();
