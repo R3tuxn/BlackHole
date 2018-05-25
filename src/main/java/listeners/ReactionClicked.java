@@ -42,7 +42,7 @@ public class ReactionClicked extends ListenerAdapter {
             }
            }
 
-        String Server = "We are a English and German Discord server with active support and members, Gaming and Talk channels, game news, many great bots and much more! If you have any questions, please contact an " +
+      /*  String Server = "We are a English and German Discord server with active support and members, Gaming and Talk channels, game news, many great bots and much more! If you have any questions, please contact an " +
                 "**[CO-OWNER]** or **[OWNER]**! For more informations, read **#informations**!";
         String Bot = "If you want to use our bot, go to **#bot_commands** and type **!help** to get the commands! If you have suggestions for the bot, go to **#suggestions_reports** and type **!suggestion <Text>**!";
         String Bot2 = "The bot is programmed by !я3тυχη#7145!";
@@ -60,12 +60,10 @@ public class ReactionClicked extends ListenerAdapter {
                 event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRolesByName("[MEMBERS]", true).get(0)).queue();
 
                 event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(em2.setColor(Color.green).setDescription("Welcome " + event.getMember().getAsMention() + " at Black Hole! Have a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
-
+*/
             }
         }
-        }
 
-}
 
 
 

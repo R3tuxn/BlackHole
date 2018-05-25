@@ -3,12 +3,14 @@ package listeners;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.requests.RestAction;
 import util.STATIC;
 
 import java.awt.*;
+import java.time.Instant;
 
 public class JoinListener extends ListenerAdapter{
 
@@ -28,7 +30,17 @@ public class JoinListener extends ListenerAdapter{
 
         EmbedBuilder builder = new EmbedBuilder();
 
-        MessageChannel channel = event.getGuild().getTextChannelsByName("welcome", true).get(0);
+        try {
+            event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRolesByName("[MEMBERS]", true).get(0)).queue();
+        } catch (Exception e) {
+            event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(builder.setDescription(":x: **Error* \n\nRole **[MEMBER]** was deleted or renamed !").setColor(Color.red).build()).queue();
+        }
+
+
+        event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(builder.setColor(Color.green).setDescription("Welcome " + event.getMember().getAsMention() + " at Black Hole! Have a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
+
+
+        /*MessageChannel channel = event.getGuild().getTextChannelsByName("welcome", true).get(0);
 
         String NewMember = "Welcome " + event.getMember().getUser().getName() +"! :wave: ";
         String Regeln = event.getGuild().getTextChannelsByName("rules", true).get(0).getAsMention();
@@ -38,6 +50,6 @@ public class JoinListener extends ListenerAdapter{
                 .setTitle(NewMember, null).setColor(Color.green).build());
         Message message = action.complete();
         message.addReaction("✅").complete();
-
+*/
     }
 }
