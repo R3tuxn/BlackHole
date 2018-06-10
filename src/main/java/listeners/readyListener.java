@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import util.STATIC;
 
 import java.awt.*;
 import java.time.Instant;
@@ -15,6 +16,7 @@ public class readyListener extends ListenerAdapter {
         EmbedBuilder builder = new EmbedBuilder();
 
         String Avatar = event.getJDA().getSelfUser().getEffectiveAvatarUrl();
+        event.getJDA().getTextChannelsByName("workstation", false).get(0).sendMessage(STATIC.Prefix + "reset").queue();
 
         for (Guild s : event.getJDA().getGuildsByName("Black Hole", true)) {
             //s.getTextChannelsByName("blackholebot_log2", true).get(0).sendMessage(

@@ -33,7 +33,7 @@ public class JoinListener extends ListenerAdapter{
         try {
             event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRolesByName("[MEMBERS]", true).get(0)).queue();
         } catch (Exception e) {
-            event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(builder.setDescription(":x: **Error* \n\nRole **[MEMBER]** was deleted or renamed !").setColor(Color.red).build()).queue();
+            event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(builder.setDescription(":x: *Error* \n\nRole **[MEMBER]** was deleted or renamed !").setColor(Color.red).build()).queue();
         }
 
 

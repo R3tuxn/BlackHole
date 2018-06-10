@@ -59,6 +59,7 @@ public class main {
             commandHandler.commands.put("invite", new CMDInvite());
             commandHandler.commands.put("prefix", new CMDPrefix());
             commandHandler.commands.put("settings", new CMDSettings());
+            commandHandler.commands.put("restart", new CMDAutoChannelPrivate());
 
     }
 
