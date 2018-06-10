@@ -32,6 +32,7 @@ public class main {
         builder.addEventListener(new ReactionClicked());
         builder.addEventListener(new JoinListener());
         builder.addEventListener(new LeftListener());
+        builder.addEventListener(new AutoChannelPrivateListener());
 
         try {
             JDA jda = builder.buildBlocking();
