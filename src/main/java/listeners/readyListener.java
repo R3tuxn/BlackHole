@@ -20,7 +20,7 @@ public class readyListener extends ListenerAdapter {
 
         String Avatar = event.getJDA().getSelfUser().getEffectiveAvatarUrl();
         event.getJDA().getTextChannelsByName("workstation", false).get(0).sendMessage("!reset").queue();
-        event.getJDA().getTextChannelsByName("workstation", false).get(0).sendMessage("-").queue();
+        event.getJDA().getTextChannelsByName("workstation", false).get(0).sendMessage("!reset2").queue();
 
         List<Message> msgs;
         MessageHistory history = new MessageHistory(event.getJDA().getTextChannelsByName("workstation", false).get(0));
