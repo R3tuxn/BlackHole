@@ -37,7 +37,7 @@ public class JoinListener extends ListenerAdapter{
         }
 
 
-        event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(builder.setColor(Color.green).setDescription("Welcome " + event.getMember().getAsMention() + " at Black Hole! Have a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
+        event.getGuild().getTextChannelsByName("owner-lounge", true).get(1).sendMessage(builder.setColor(Color.green).setDescription("Welcome " + event.getMember().getUser().getAsMention() + " at Black Hole! You are the **" + event.getGuild().getMembers().size() + "** Member! :tada:\nHave a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
 
 
         /*MessageChannel channel = event.getGuild().getTextChannelsByName("welcome", true).get(0);

@@ -9,13 +9,13 @@ import java.io.*;
 import java.text.ParseException;
 import java.util.HashMap;
 
-public class CMDAutoChannelPrivate implements Command {
-    public static File file = new File("SERVER_SETTINGS/autochannel_Private.txt");
+    public class CMDAutoChannelPrivate implements Command {
+      public static File file = new File("SERVER_SETTINGS/autochannel_Private.txt");
 
-    private static HashMap<VoiceChannel, Guild> autochannels = new HashMap<>();
+        private static HashMap<VoiceChannel, Guild> autochannels = new HashMap<>();
 
     public static VoiceChannel Autochannel;
-    public static String idscanner = "";
+    public static String idreader = "";
 
     public static VoiceChannel getVchan(String id, Guild g) {
         return g.getVoiceChannelById(id);
@@ -27,13 +27,12 @@ public class CMDAutoChannelPrivate implements Command {
 
     public static void setChannel(String id, Guild g, TextChannel tc) throws FileNotFoundException {
 
-        FileReader fileReader = new FileReader(file);
+       FileReader fileReader = new FileReader(file);
         BufferedReader br = new BufferedReader(fileReader);
 
         try {
-            idscanner = br.readLine();
-            System.out.println(idscanner);
-            id = idscanner;
+            idreader = br.readLine();
+            id = idreader;
             Autochannel = getVchan(id, g);
             autochannels.put(Autochannel, g);
             System.out.println(autochannels);
@@ -53,7 +52,7 @@ public class CMDAutoChannelPrivate implements Command {
         Guild g = event.getGuild();
         TextChannel tc = event.getTextChannel();
 
-        setChannel(idscanner, g, tc);
+        setChannel(idreader, g, tc);
 
     }
 

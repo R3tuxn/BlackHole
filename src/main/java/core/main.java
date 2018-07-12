@@ -33,6 +33,7 @@ public class main {
         builder.addEventListener(new JoinListener());
         builder.addEventListener(new LeftListener());
         builder.addEventListener(new AutoChannelPrivateListener());
+        builder.addEventListener(new AutoChannelFriendsListener());
 
         try {
             JDA jda = builder.buildBlocking();
@@ -60,7 +61,8 @@ public class main {
             commandHandler.commands.put("invite", new CMDInvite());
             commandHandler.commands.put("prefix", new CMDPrefix());
             commandHandler.commands.put("settings", new CMDSettings());
-            commandHandler.commands.put("restart", new CMDAutoChannelPrivate());
+            commandHandler.commands.put("reset", new CMDAutoChannelPrivate());
+            commandHandler.commands.put("reset", new CMDAutoChannelFriends());
 
     }
 

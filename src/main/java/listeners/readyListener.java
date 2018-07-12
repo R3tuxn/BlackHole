@@ -2,12 +2,15 @@ package listeners;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageHistory;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import util.STATIC;
 
 import java.awt.*;
 import java.time.Instant;
+import java.util.List;
 
 public class readyListener extends ListenerAdapter {
 
@@ -16,7 +19,14 @@ public class readyListener extends ListenerAdapter {
         EmbedBuilder builder = new EmbedBuilder();
 
         String Avatar = event.getJDA().getSelfUser().getEffectiveAvatarUrl();
-        event.getJDA().getTextChannelsByName("workstation", false).get(0).sendMessage(STATIC.Prefix + "reset").queue();
+        event.getJDA().getTextChannelsByName("workstation", false).get(0).sendMessage("!reset").queue();
+        event.getJDA().getTextChannelsByName("workstation", false).get(0).sendMessage("-").queue();
+
+        List<Message> msgs;
+        MessageHistory history = new MessageHistory(event.getJDA().getTextChannelsByName("workstation", false).get(0));
+
+        msgs = history.retrievePast(2).complete();
+        event.getJDA().getTextChannelsByName("workstation", false).get(0).deleteMessages(msgs).queue();
 
         for (Guild s : event.getJDA().getGuildsByName("Black Hole", true)) {
             //s.getTextChannelsByName("blackholebot_log2", true).get(0).sendMessage(
