@@ -21,11 +21,11 @@ public class JoinListener extends ListenerAdapter{
 
         if (STATIC.Switch1.equals("off")) {
             event.getGuild().getController().addSingleRoleToMember(event.getMember(),event.getJDA().getRolesByName("[MEMBERS]", false).get(0)).queue();
-            event.getGuild().getTextChannelsByName("\uD83D\uDCE9welcome", false).get(0).sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
+            event.getGuild().getTextChannelsByName("\uD83D\uDC4Bwelcome", false).get(0).sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
         }
 
-        event.getGuild().getTextChannelsByName("\uD83D\uDCE9welcome", true).get(0).sendMessage(em1.setColor(Color.green).setDescription("Welcome **" + event.getMember().getUser().getName() + "** at Black Hole!\nYou are the **" + event.getGuild().getMembers().size() + "** Member! :tada:\n\nHave a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
+        event.getGuild().getTextChannelsByName("\uD83D\uDC4Bwelcome", true).get(0).sendMessage(em1.setColor(Color.green).setDescription("Welcome **" + event.getMember().getUser().getName() + "** at Black Hole!\nYou are the **" + event.getGuild().getMembers().size() + "** Member! :tada:\n\nHave a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
         event.getGuild().getController().addSingleRoleToMember(event.getMember(), event.getJDA().getRolesByName("[MEMBERS]", false).get(0)).queue();
     }
 }
