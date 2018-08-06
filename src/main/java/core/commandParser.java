@@ -1,6 +1,5 @@
 package core;
 
-import commands.CMDPrefix;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
 
@@ -10,7 +9,9 @@ public class commandParser {
 
     public commandContainer parse(String raw, MessageReceivedEvent event) {
 
-        String beheaded = raw.replaceFirst(STATIC.Prefix, "");
+        String Message = raw.toLowerCase();
+
+        String beheaded = Message.replaceFirst(STATIC.Prefix, "");
         String[] splitBeheaded = beheaded.split(" ");
         String invoke = splitBeheaded[0];
         ArrayList<String> split = new ArrayList<>();
@@ -20,7 +21,7 @@ public class commandParser {
         String[] args = new String[split.size() - 1];
         split.subList(1, split.size()).toArray(args);
 
-        return new commandContainer(raw, beheaded, splitBeheaded, invoke, args, event);
+        return new commandContainer(Message, beheaded, splitBeheaded, invoke, args, event);
     }
 
 

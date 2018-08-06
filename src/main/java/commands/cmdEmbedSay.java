@@ -21,52 +21,34 @@ public class cmdEmbedSay implements Command {
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
         EmbedBuilder em1 = new EmbedBuilder();
+        EmbedBuilder Error = new EmbedBuilder();
+
+        String Member = "By " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator();
+        String Avatar = event.getAuthor().getEffectiveAvatarUrl();
 
         if (STATIC.Switch1.equals("off")) {
-            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
         }
-
-        EmbedBuilder builder = new EmbedBuilder();
-        String Text = "By " + event.getAuthor().getName();
-        String Avatar = event.getAuthor().getEffectiveAvatarUrl();
 
         if (permscore.check(event)) {
             return;
-        } else if (args.length == 0) {
-            event.getTextChannel().sendMessage(builder.setDescription(":x: Error\n\nUse !embedsay <Text>").build()).queue();
+        }
+
+        if (args.length == 0) {
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "embedsay <Text>`").build()).queue();
             return;
         }
-        if (args.length > 0) {
+        event.getMessage().delete().complete();
 
-            //Timer Zeit = new Timer();
+        List argsList = Arrays.asList(args);
+        StringBuilder sb = new StringBuilder();
+        argsList.forEach(s -> sb.append(s + " "));
+        send(sb.toString(), event);
 
-           // EmbedBuilder Timer = new EmbedBuilder();
-         //   String Member = event.getMember().getUser().getAsMention();
-//
-          //  Zeit.schedule(new TimerTask() {
-          //      @Override
-          //      public void run() {
-               //     event.getTextChannel().sendMessage(
-               //             Timer.setColor(Color.red).setDescription(Member + " ! **Not so fast! :timer: **").build()).queue();
-                }
-         //   }, 20000);
-      //  }
+        event.getTextChannel().sendMessage(em1.setColor(Color.WHITE).setDescription("**" + sb + "**").setFooter(Member, Avatar).build()).queue();
 
-
-
-
-            event.getMessage().delete().complete();
-
-            List argsList = Arrays.asList(args);
-            StringBuilder sb = new StringBuilder();
-            argsList.forEach(s -> sb.append(s + " "));
-            send(sb.toString(), event);
-
-            event.getTextChannel().sendMessage(builder.setColor(Color.orange).setDescription(sb).setFooter(Text, Avatar).build()).queue();
-        System.out.println("[COMMAND] -> !embedsay < "+ sb + ">");
-
-        return;
+        System.out.println("[COMMAND] -> " + STATIC.Prefix + "embedsay <" + sb + ">");
     }
 
 

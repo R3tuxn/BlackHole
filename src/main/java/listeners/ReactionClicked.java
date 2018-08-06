@@ -1,11 +1,14 @@
 package listeners;
 
 import commands.CMDServerStats;
+import commands.CMDSuggestions;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import util.STATIC;
 
 import java.awt.*;
 import java.time.Instant;
@@ -16,52 +19,180 @@ public class ReactionClicked extends ListenerAdapter {
 
         Guild g = event.getGuild();
         CMDServerStats.GuildStats gs = new CMDServerStats.GuildStats(g);
+        try {
+            PrivateChannel channel1 = event.getMember().getUser().openPrivateChannel().complete();
 
-        PrivateChannel channel1 = event.getMember().getUser().openPrivateChannel().complete();
-        EmbedBuilder em = new EmbedBuilder();
-        EmbedBuilder em2 = new EmbedBuilder();
+            EmbedBuilder Error = new EmbedBuilder();
+            EmbedBuilder em1 = new EmbedBuilder();
 
-        if (event.getChannel().getId().equals("425198107790409728")) {
-            if (event.getReactionEmote().getName().equals("❌")) {
-                channel1.sendMessage(em.setColor(Color.green).setAuthor("Suggestion: ", null, gs.Avatar).setDescription("You **reported** this suggestion!").setFooter("Thanks for reporting! \uD83C\uDF89 ", null).build()).queue();
-                event.getReaction().removeReaction(event.getUser()).complete();
+            if (STATIC.Switch1.equals("off")) {
+                channel1.sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
+                return;
+            }
+
+            try {
+                if (event.getChannel().getId().equals("425198107790409728")) {
+                    if (event.getReactionEmote().getName().equals("❌")) {
+                        channel1.sendMessage(em1.setColor(Color.green).setAuthor("Suggestion: ", null, gs.Avatar).setDescription("You **reported** this suggestion!").setFooter("Thanks for reporting! \uD83C\uDF89 ", null).build()).queue();
+                        event.getReaction().removeReaction(event.getUser()).complete();
+
+                        String Error1 = "*Couldn't find the suggestion!*";
+                        EmbedBuilder em2 = new EmbedBuilder();
+                        if (CMDSuggestions.SuggestionText == null) {
+                            event.getGuild().getTextChannelsByName("bot_reports", false).get(0).sendMessage(em2.setColor(Color.GRAY).setAuthor("Report by " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(),null, event.getMember().getUser().getEffectiveAvatarUrl())
+                                    .setDescription(Error1).setTimestamp(Instant.now()).build()).queue();
+                            return;
+                        }
+                        event.getGuild().getTextChannelsByName("bot_reports", false).get(0).sendMessage(em2.setColor(Color.GRAY).setAuthor("Report by " + event.getMember().getUser().getName() + "#" + event.getMember().getUser().getDiscriminator(),null, event.getMember().getUser().getEffectiveAvatarUrl())
+                                .setDescription(CMDSuggestions.SuggestionText).setTimestamp(Instant.now()).build()).queue();
+                    }
+                }
+
+                //Game-News
+                if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+                    if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83C\uDFAE")) {
+                        Role r = event.getGuild().getRolesByName("Game-News", false).get(0);
+                        Guild s = event.getGuild();
+                        if (event.getMember().getRoles().contains(r)) {
+                            s.getController().removeSingleRoleFromMember(event.getMember(), r).queue();
+                        } else
+                            try {
+                                s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                            } catch (Exception e) {
+                                System.out.println("Could not add Role [" + r.getName() + "] !");
+                            }
+                    }
+
+                }
+
+                //Bot-News
+                if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+                    if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83E\uDD16")) {
+                        Role r = event.getGuild().getRolesByName("Bot-News", false).get(0);
+                        Guild s = event.getGuild();
+                        if (event.getMember().getRoles().contains(r)) {
+                            s.getController().removeSingleRoleFromMember(event.getMember(), r).queue();
+                        } else
+                            try {
+                                s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                            } catch (Exception e) {
+                                System.out.println("Could not add Role [" + r.getName() + "] !");
+                            }
+
+                    }
+                }
+
+                //Memes
+                if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+                    if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83D\uDC38")) {
+                        Role r = event.getGuild().getRolesByName("Memes", false).get(0);
+                        Guild s = event.getGuild();
+                        if (event.getMember().getRoles().contains(r)) {
+                            s.getController().removeSingleRoleFromMember(event.getMember(), r).queue();
+                        } else
+                            try {
+                                s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                            } catch (Exception e) {
+                                System.out.println("Could not add Role [" + r.getName() + "] !");
+                            }
+                    }
+
+
+                }
+
+                //Gamer
+                if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+                    if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83D\uDC7E")) {
+                        Role r = event.getGuild().getRolesByName("Gamer", false).get(0);
+                        Guild s = event.getGuild();
+                        if (event.getMember().getRoles().contains(r)) {
+                            s.getController().removeSingleRoleFromMember(event.getMember(), r).queue();
+                        } else
+                            try {
+                                s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                            } catch (Exception e) {
+                                System.out.println("Could not add Role [" + r.getName() + "] !");
+                            }
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println("");
+            }
+        } catch (Exception e) {
+            System.out.println("");
+        }
+    }
+    public void onGuildMessageReactionRemove(GuildMessageReactionRemoveEvent event) {
+
+        //Game-News
+        if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+            if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83C\uDFAE")) {
+                Role r = event.getGuild().getRolesByName("Game-News", false).get(0);
+                Guild s = event.getGuild();
+                if (event.getMember().getRoles().contains(r)) {
+                    s.getController().removeSingleRoleFromMember(event.getMember(),r).queue();
+                } else
+                    try {
+                        s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                    } catch (Exception e) {
+                        System.out.println("Could not add Role [" + r.getName() + "] !");
+                    }
+            }
+
+        }
+
+//Bot-News
+        if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+            if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83E\uDD16")) {
+                Role r = event.getGuild().getRolesByName("Bot-News", false).get(0);
+                Guild s = event.getGuild();
+                if (event.getMember().getRoles().contains(r)) {
+                    s.getController().removeSingleRoleFromMember(event.getMember(),r).queue();
+                } else
+                    try {
+                        s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                    } catch (Exception e) {
+                        System.out.println("Could not add Role [" + r.getName() + "] !");
+                    }
 
             }
         }
 
-        if (event.getChannel().getId().equals("425198107790409728")) {
-            if (event.getReactionEmote().getName().equals("\uD83D\uDC4D\uD83C\uDFFB")) {
-              //  channel1.sendMessage(em.setColor(Color.yellow).setAuthor("Suggestion: ", null, gs.Avatar).setDescription("You voted for **Yes**!\n\n").setFooter("Thanks for voting!  \uD83C\uDF89", null).build()).queue();
+//Memes
+        if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+            if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83D\uDC38")) {
+                Role r = event.getGuild().getRolesByName("Memes", false).get(0);
+                Guild s = event.getGuild();
+                if (event.getMember().getRoles().contains(r)) {
+                    s.getController().removeSingleRoleFromMember(event.getMember(), r).queue();
+                } else
+                    try {
+                        s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                    } catch (Exception e) {
+                        System.out.println("Could not add Role [" + r.getName() + "] !");
+                    }
+            }
 
+
+        }
+
+        //Gamer
+        if (event.getChannel().getId().equalsIgnoreCase("457914367095078913")) {
+            if (event.getReactionEmote().getName().equalsIgnoreCase("\uD83D\uDC7E")) {
+                Role r = event.getGuild().getRolesByName("Gamer", false).get(0);
+                Guild s = event.getGuild();
+                if (event.getMember().getRoles().contains(r)) {
+                    s.getController().removeSingleRoleFromMember(event.getMember(),r).queue();
+                } else
+                    try {
+                        s.getController().addSingleRoleToMember(event.getMember(), r).queue();
+                    } catch (Exception e) {
+                        System.out.println("Could not add Role [" + r.getName() + "] !");
+                    }
             }
         }
-        if (event.getChannel().getId().equals("425198107790409728")) {
-            if (event.getReactionEmote().getName().equals("\uD83D\uDC4E\uD83C\uDFFB")) {
-             //   channel1.sendMessage(em.setColor(Color.yellow).setAuthor("Suggestion: ",null, gs.Avatar).setDescription("You voted for **No**!\n\n").setFooter("Thanks for voting!  \uD83C\uDF89 ", null).build()).queue();
-
-            }
-           }
-
-      /*  String Server = "We are a English and German Discord server with active support and members, Gaming and Talk channels, game news, many great bots and much more! If you have any questions, please contact an " +
-                "**[CO-OWNER]** or **[OWNER]**! For more informations, read **#informations**!";
-        String Bot = "If you want to use our bot, go to **#bot_commands** and type **!help** to get the commands! If you have suggestions for the bot, go to **#suggestions_reports** and type **!suggestion <Text>**!";
-        String Bot2 = "The bot is programmed by !я3тυχη#7145!";
-
-        if (event.getChannel().getId().equals("440913477641568287")) {
-            if (event.getReactionEmote().getName().equals("✅")) {
-                channel1.sendMessage(em.setTitle("Welcome to Black Hole!").setColor(Color.green)
-                        .setDescription("You have successfully registered!")
-                        .addField("Server:", Server, false)
-                        .addField("Bot:", Bot, false)
-                        .setFooter(Bot2, null)
-                        .build()).queue();
-                event.getReaction().removeReaction(event.getUser()).complete();
-
-                event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRolesByName("[MEMBERS]", true).get(0)).queue();
-
-                event.getGuild().getTextChannelsByName("welcome", true).get(1).sendMessage(em2.setColor(Color.green).setDescription("Welcome " + event.getMember().getAsMention() + " at Black Hole! Have a lot fun on our Server!").setTimestamp(Instant.now()).build()).queue();
-*/
-            }
+    }
         }
 
 

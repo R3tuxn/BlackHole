@@ -1,5 +1,6 @@
 package commands;
 
+import core.permscore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -14,17 +15,22 @@ import java.util.List;
 
 public class CMDSuggestions implements Command {
 
-    public static class Suggestion {
+    public static class Suggestion1 {
+        public String Avatar,Name,Report,ID, Name2;
 
-        public String Name, Avatar, ID;
+        public Suggestion1(User event) {
+            this.Name = "By " + event.getName() + "#" + event.getDiscriminator();
+            this.Name2 = "by " + event.getName() + "#" + event.getDiscriminator();
+            this.Avatar = event.getEffectiveAvatarUrl();
+            this.Report = "This text is against the rules? Report it with ❌!";
+            this.ID = event.getDiscriminator();
 
-        public Suggestion(User user) {
 
-            this.Name = user.getName();
-            this.Avatar = user.getEffectiveAvatarUrl();
-            this.ID = user.getDiscriminator();
         }
+
     }
+
+    public static StringBuilder SuggestionText;
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -34,50 +40,47 @@ public class CMDSuggestions implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
+        EmbedBuilder Error = new EmbedBuilder();
         EmbedBuilder em1 = new EmbedBuilder();
 
+
+        User user = event.getMember().getUser();
+        CMDSuggestions.Suggestion1 ga = new Suggestion1(user);
+
         if (STATIC.Switch1.equals("off")) {
-            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
+            return;
+        }
+        if (permscore.check(event)) {
             return;
         }
 
-        EmbedBuilder builder = new EmbedBuilder();
-        StringBuilder stringBuilder = new StringBuilder();
-        CMDReport.Grund gs = new CMDReport.Grund(stringBuilder);
-
-        String Avatar = event.getAuthor().getEffectiveAvatarUrl();
-        String Name = "By " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator();
-        String text = "*Vote now with* \uD83D\uDC4D\uD83C\uDFFB *or*  \uD83D\uDC4E\uD83C\uDFFB ";
-        String Report = "This text is against the rules? Report it with ❌!";
-
         if (args.length == 0) {
-            event.getTextChannel().sendMessage(
-                    builder.setColor(Color.red).setDescription(":x: **Error**\n\nUse *!suggestion >Text<*").build()
-            ).queue();
-        } else {
-
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "suggestion <Text>`").build()).queue();
+            return;
         }
-        if (args.length > 0) {
-            List argsList = Arrays.asList(args);
-            StringBuilder sb = new StringBuilder();
-            argsList.forEach(s -> sb.append(s + " "));
-            gs.Suggestion = sb;
+        try {
+            if (args.length > 0) {
+                List argsList = Arrays.asList(args);
+                StringBuilder sb = new StringBuilder();
+                argsList.forEach(s -> sb.append(s + " "));
+                SuggestionText = sb;
 
-            event.getMessage().delete().complete();
-            String ID = event.getAuthor().getDiscriminator();
+                event.getMessage().delete().complete();
+                MessageChannel channel = event.getGuild().getTextChannelsByName("\uD83D\uDCE9suggestions_reports", false).get(0);
 
-            MessageChannel channel = event.getGuild().getTextChannelsByName("suggestions_reports", false).get(0);
+                RestAction<Message> action = channel.sendMessage(em1.setColor(Color.green).setTitle("Suggestion:").setDescription("`" + SuggestionText + "`").addField("", ga.Report, false).setFooter(ga.Name, ga.Avatar).build());
+                Message message = action.complete();
+                message.addReaction("\uD83D\uDC4D\uD83C\uDFFB").complete();
+                message.addReaction("\uD83D\uDC4E\uD83C\uDFFB").complete();
+                message.addReaction("❌").complete();
 
-            RestAction<Message> action = channel.sendMessage(builder.setColor(Color.green).setTitle("Suggestion:").setDescription(gs.Suggestion).addField("", text, false).addField("", Report, false).setFooter(Name, Avatar).build());
-            Message message = action.complete();
-            message.addReaction("\uD83D\uDC4D\uD83C\uDFFB").complete();
-            message.addReaction("\uD83D\uDC4E\uD83C\uDFFB").complete();
-            message.addReaction("❌").complete();
+                System.out.println("[COMMAND] -> " + STATIC.Prefix + "suggestion < " + SuggestionText + " > By " + event.getAuthor().getName() + ga.ID);
 
-            System.out.println("[COMMAND] -> !suggestion < " + gs.Suggestion + " > By " + event.getAuthor().getName() + ID);
-
+            }
+        } catch (Exception e) {
+            System.out.println("");
         }
-
     }
 
 

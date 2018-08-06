@@ -1,5 +1,6 @@
 package commands;
 
+import core.permscore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
@@ -15,34 +16,35 @@ public class cmdhelp implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
 
+        EmbedBuilder Error = new EmbedBuilder();
         EmbedBuilder em1 = new EmbedBuilder();
 
         if (STATIC.Switch1.equals("off")) {
-            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
         }
 
-        EmbedBuilder builder = new EmbedBuilder();
+        if (permscore.check(event)) {
+            return;
+        }
 
         if (args.length > 0) {
-            event.getTextChannel().sendMessage(
-                    builder.setColor(Color.red).setDescription(":x: **Error**\n\nUse *!help*").build()).queue();
-            return;
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "help`").build()).queue();
         } else {
 
-
             String Playername = event.getAuthor().getName();
-            String Stringtext = "Requested by " + Playername;
+            String PlayerID = event.getMember().getUser().getDiscriminator();
+            String Stringtext = "Requested by " + Playername + "#" + PlayerID;
             String Avatar = event.getAuthor().getEffectiveAvatarUrl();
 
-            String Admin = "`!prefix help` **[BETA]** *Change the bot prefix!*\n`!embedsay <Text>` *Send a message in a EmbedBuilder!*\n`!settings` *Edit the bot settings*\n";
+            String Admin = STATIC.Prefix + "`prefix help` *Change the bot prefix!*\n" + STATIC.Prefix + "`embedsay <Text>` *Send a message in a EmbedBuilder!*\n" + STATIC.Prefix + "`settings help` *Edit the bot settings*\n";
             String Moderation = "";
-            String Fun = "`!say <Text>` *Say something!*\n";
-            String Informations = "`!help` *Open this message!*\n`!ping` *Shows the bot ping!*\n`!membercount` *Member and Bot counter!*\n`!userstats <Name>` *Shows stats of a user!*\n`!serverstats` *Shows stats of the server!*\n`!invite` *Get a invite of the server!*\n";
-            String Others = "`!suggestion <Text>` *Give us a suggestion!*\n`!report <Name> <Reason>` **[Comming Soon!]** *Report a user!*\n";
+            String Fun = STATIC.Prefix + "`say <Text>` *Say something!*\n";
+            String Informations = STATIC.Prefix + "`help` *Open this message!*\n" + STATIC.Prefix + "`ping` *Shows the bot ping!*\n" + STATIC.Prefix + "`membercount` *Member and Bot counter!*\n" + STATIC.Prefix + "`userstats <Name>` *Shows stats of a user!*\n" + STATIC.Prefix + "`serverstats` *Shows stats of the server!*\n" + STATIC.Prefix + "`invite` *Get a invite of the server!*\n";
+            String Others = STATIC.Prefix + "`suggestion <Text>` *Give us a suggestion!*\n" + STATIC.Prefix + "`report <Name> <Reason>` **[Comming Soon!]** *Report a user!*\n";
 
-            event.getTextChannel().sendMessage(builder
-                    .setDescription(":clipboard: Help")
+            event.getTextChannel().sendMessage(em1
+                    .setDescription(":clipboard: Help Menu")
                     .addField("Admin: ", Admin, false)
                     .addField("Moderation: ", Moderation, false)
                     .addField("Fun: ", Fun, false)
@@ -51,6 +53,8 @@ public class cmdhelp implements Command {
                     .setFooter(Stringtext, Avatar)
                     .setColor(Color.orange)
                     .build()).queue();
+
+            System.out.println("[COMMAND] -> " + STATIC.Prefix + "help");
 
         }
     }
