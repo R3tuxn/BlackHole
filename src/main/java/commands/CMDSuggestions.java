@@ -1,6 +1,5 @@
 package commands;
 
-import core.permscore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -51,10 +50,6 @@ public class CMDSuggestions implements Command {
             event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
         }
-        if (permscore.check(event)) {
-            return;
-        }
-
         if (args.length == 0) {
             event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "suggestion <Text>`").build()).queue();
             return;
@@ -94,7 +89,4 @@ public class CMDSuggestions implements Command {
     public String help() {
         return null;
     }
-    public void send(String msg,MessageReceivedEvent event) {
-    }
-
 }

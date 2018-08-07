@@ -4,7 +4,6 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
 
@@ -13,15 +12,14 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CMDServerStats implements Command {
 
     public static class GuildStats {
 
-        private String ID, Region, Roles, Owner, CreationTime;
-        private int TextChannels, VoiceChannels, Categories;
-        public  long all, users, onlineUsers, bots;
+        private String ID, Region, Owner, CreationTime;
+        private int TextChannels, VoiceChannels, Categories, Roles;
+        public   long all, users, onlineUsers, bots;
         public String Avatar, Name;
 
 
@@ -32,7 +30,7 @@ public class CMDServerStats implements Command {
             this.Name = g.getName();
             this.ID = g.getId();
             this.Region = g.getRegion().getName();
-            this.Roles = " ";
+            this.Roles = g.getRoles().size();
             this.TextChannels = g.getTextChannels().size();
             this.VoiceChannels = g.getVoiceChannels().size();
             this.Categories = g.getCategories().size();
@@ -46,23 +44,8 @@ public class CMDServerStats implements Command {
             this.onlineUsers = l.stream().filter(m -> !m.getUser().isBot() && !m.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count();
             this.bots = l.stream().filter(m -> m.getUser().isBot()).count();
 
-            for (Role r : g.getRoles()) {
-                this.Roles += r.getName() + ", ";
-            }
-            if (this.Roles.length() > 0)
-                this.Roles = this.Roles.substring(0, this.Roles.length() - 2);
-            else
-                this.Roles = "No roles on this server.";
-
-            this.Roles = g.getRoles().stream()
-                    .filter(r -> !r.getName().contains("everyone"))
-                    .map(r -> String.format(r.getName()))
-                    .collect(Collectors.joining(", "));
-
         }
-        }
-
-
+    }
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -72,40 +55,47 @@ public class CMDServerStats implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException {
 
+        EmbedBuilder Error = new EmbedBuilder();
         EmbedBuilder em1 = new EmbedBuilder();
 
+        Guild g = event.getGuild();
+        CMDServerStats.GuildStats gs = new CMDServerStats.GuildStats(g);
+
+        String Roles = Integer.toString(gs.Roles);
+        String TextChannels = Integer.toString(gs.TextChannels);
+        String VoiceChannels = Integer.toString(gs.VoiceChannels);
+        String Categories = Integer.toString(gs.Categories);
+
         if (STATIC.Switch1.equals("off")) {
-            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
         }
-
-        EmbedBuilder aw = new EmbedBuilder();
-
         if (args.length > 0) {
-            event.getTextChannel().sendMessage(
-                    aw.setColor(Color.red).setDescription(":x: **Error**\n\nUse *!serverstats*").build()).queue();
-            return;
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "serverStats`").build()).queue();
         } else {
 
-            Guild g = event.getGuild();
-            CMDServerStats.GuildStats gs = new CMDServerStats.GuildStats(g);
+            event.getTextChannel().sendMessage(em1.setColor(Color.green)
+                    .setFooter(gs.Name,gs.Avatar)
+                    .setTimestamp(Instant.now())
+                    .setTitle(":chart_with_upwards_trend:  Server-Stats", null)
+                    .addField("Name",gs.Name, true)
+                    .addField("Creation-Time",gs.CreationTime,true)
+                    .addField("Owner",gs.Owner,true)
+                    .addField("ID", gs.ID,true)
+                    .addField("Region",gs.Region,true)
+                    .addField("Roles", Roles, true)
+                    .addField("Text-Channels", TextChannels,true)
+                    .addField("Voice-Channels", VoiceChannels, true)
+                    .addField("Categories", Categories, true)
+                    .setThumbnail(gs.Avatar)
+                    .build()).queue();
 
-            String AvatarString = gs.Name + " | Server Stats";
-
-            System.out.println("[COMMAND] -> !serverstats <" + g.getName() + ">");
-
-            event.getTextChannel().sendMessage(aw.setColor(Color.green).setThumbnail(gs.Avatar).setTitle(AvatarString).setDescription("Name: " + "`" + gs.Name + "`" + "\nCreation-Time: " + "`" + gs.CreationTime + "`" + "\nOwner: " + "`" + gs.Owner + "`" + "\nID: " + "`" + gs.ID + "`" + "\nRegion: " + "`" + gs.Region + "`" + "\nRoles: " + "`" + gs.Roles + "`" + "\nText-Channels: " + "`" + gs.TextChannels + "`" +
-                    "\nVoice-Channels: " + "`" + gs.VoiceChannels + "`" + "\nCategories: " + "`" + gs.Categories + "`" + "\n\n*Requested by " + event.getAuthor().getName() + "*").setTimestamp(Instant.now()).build()).queue();
-
-
+            System.out.println("[COMMAND] -> " + STATIC.Prefix + "serverstats <" + g.getName() + ">");
         }
     }
-
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
-
     }
-
     @Override
     public String help() {
         return null;

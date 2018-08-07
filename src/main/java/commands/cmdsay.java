@@ -18,29 +18,25 @@ public class cmdsay implements Command{
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
 
-        EmbedBuilder em1 = new EmbedBuilder();
+        EmbedBuilder Error = new EmbedBuilder();
 
         if (STATIC.Switch1.equals("off")) {
-            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
         }
+        if(args.length == 0){
 
-        EmbedBuilder builder = new EmbedBuilder();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "say <Text>`").build()).queue();
 
-                if(args.length == 0){
-                event.getTextChannel().sendMessage(
-                        builder.setColor(Color.red).setTitle(":x: **Error**\n\nUse *!say >Text<").build()
-                ).queue();
-                    return;
+        } else {
 
-            } else {
-                List argsList = Arrays.asList(args);
-                StringBuilder sb = new StringBuilder();
-                argsList.forEach(s -> sb.append(s + " "));
-                send(sb.toString(), event);
+            List argsList = Arrays.asList(args);
+            StringBuilder sb = new StringBuilder();
+            argsList.forEach(s -> sb.append(s + " "));
+            send(sb.toString(), event);
 
-                    System.out.println("[COMMAND] -> !say < "+ sb + ">");
-            }
+            System.out.println("[COMMAND] -> " + STATIC.Prefix + "say < "+ sb + ">");
+        }
     }
 
     @Override

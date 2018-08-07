@@ -1,10 +1,8 @@
 package commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.requests.RestAction;
 import util.STATIC;
 
 import java.awt.*;
@@ -20,29 +18,26 @@ public class CMDInvite implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) throws ParseException, IOException {
 
+        EmbedBuilder Error = new EmbedBuilder();
         EmbedBuilder em1 = new EmbedBuilder();
 
+        PrivateChannel channel = event.getAuthor().openPrivateChannel().complete();
+
         if (STATIC.Switch1.equals("off")) {
-            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
         }
-
-        EmbedBuilder em = new EmbedBuilder();
-
-        String invite = "https://discord.gg/tmEeBdz";
-
         if (args.length > 0) {
-            event.getTextChannel().sendMessage(em.setDescription(":x: **Error**\n\nUse *!invite*!").setColor(Color.red).build()).queue();
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "invite`").build()).queue();
             return;
         }
-
-      PrivateChannel channel = event.getAuthor().openPrivateChannel().complete();
 
         event.getMessage().delete().complete();
 
-        RestAction<Message> action =  channel.sendMessage(em.setColor(Color.green).addField("Discord Link: ", invite, false).build());
-        Message message = action.complete();
-        message.addReaction("✅").complete();
+        channel.sendMessage(em1.setColor(Color.green).setTitle(":pushpin: Complexity DC | Invite-Links :round_pushpin:")
+                .addField(":flag_us: Offical Complexity DC | English:","https://discord.gg/txuZ7Aj", false)
+                .addField(":flag_de: Complexity DC | German:","*Comming Soon*", false)
+                .build()).queue();
 
     }
 

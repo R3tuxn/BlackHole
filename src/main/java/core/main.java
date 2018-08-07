@@ -63,6 +63,7 @@ public class main {
             commandHandler.commands.put("settings", new CMDSettings());
             commandHandler.commands.put("reset", new CMDAutoChannelPrivate());
             commandHandler.commands.put("reset2", new CMDAutoChannelFriends());
+            commandHandler.commands.put("admin", new cmdSetAdmin());
 
     }
 

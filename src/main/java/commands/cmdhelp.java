@@ -1,6 +1,5 @@
 package commands;
 
-import core.permscore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
@@ -21,10 +20,6 @@ public class cmdhelp implements Command {
 
         if (STATIC.Switch1.equals("off")) {
             event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
-            return;
-        }
-
-        if (permscore.check(event)) {
             return;
         }
 

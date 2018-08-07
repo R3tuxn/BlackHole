@@ -18,55 +18,40 @@ public class cmdmembercount implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
 
+        EmbedBuilder Error = new EmbedBuilder();
         EmbedBuilder em1 = new EmbedBuilder();
-
-        if (STATIC.Switch1.equals("off")) {
-            event.getTextChannel().sendMessage(em1.setDescription("Bot disabled!").setColor(Color.red).build()).queue();
-            return;
-        }
 
         Guild g = event.getGuild();
         CMDServerStats.GuildStats gs = new CMDServerStats.GuildStats(g);
-        String U = " Users";
-        String UO = " Online-Users";
-        String M = " Members";
-        String B = " Bots";
 
-        if(gs.all < 2) {
-            M = " Member";
-        }
-        if (gs.users < 2) {
-            U = " User";
-        }
-        if (gs.onlineUsers < 2) {
-            UO = " Online-User";
-        }
-        if (gs.bots < 2) {
-            B = " Bot";
-        }
+        String M = Long.toString(gs.all);
+        String U = Long.toString(gs.users);
+        String OU = Long.toString(gs.onlineUsers);
+        String B = Long.toString(gs.bots);
 
-        EmbedBuilder builder = new EmbedBuilder();
-
-        if(args.length > 0) {
-            event.getTextChannel().sendMessage(
-                    builder.setColor(Color.red).setDescription(":x: **Error**\n\nUse *!membercount*").build()).queue();
+        if (STATIC.Switch1.equals("off")) {
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nBot disabled!").build()).queue();
             return;
-        } else {
-        event.getTextChannel().sendMessage(
-                builder.setColor(Color.gray).setFooter(gs.Name, gs.Avatar)
-                .setTitle(":clipboard:   Membercount")
-                .setDescription(":small_blue_diamond:  " + gs.all + " **" + M + "**\n" + ":small_blue_diamond:  " + gs.users + " **" + U + "**\n" + ":small_blue_diamond:  " + gs.onlineUsers + " **" + UO + "**\n" + ":small_blue_diamond:  " + gs.bots + " **" + B + "**")
-                .setTimestamp(Instant.now()).build()).queue();
-
+        }
+        if(args.length > 0) {
+            event.getTextChannel().sendMessage(Error.setColor(Color.red).setDescription("**Error** :x:\n\nUse `" + STATIC.Prefix + "membercount`").build()).queue();
+            return;
         }
 
+        event.getTextChannel().sendMessage(
+                em1.setColor(Color.GREEN).setFooter(gs.Name, gs.Avatar)
+                        .setTitle(":chart_with_upwards_trend:  Member-Counter")
+                        .addField("Members", M, true)
+                        .addField("Users", U, true)
+                        .addField("Online-Users", OU, true)
+                        .addField("Bots", B, true)
+                        .setTimestamp(Instant.now()).build()).queue();
+
+        System.out.println("[COMMAND] -> " + STATIC.Prefix + "membercount");
     }
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
-
-        System.out.println("[COMMAND] -> !membercount");
-
     }
 
     @Override
